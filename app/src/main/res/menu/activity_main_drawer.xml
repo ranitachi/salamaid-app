@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item android:title="Data Muzzaki">
+            <menu>
+                <item
+                    android:id="@+id/data_siswa"
+                    android:icon="@mipmap/icon_user"
+                    android:title="Siswa" />
+                <item
+                    android:id="@+id/data_muzzaki"
+                    android:icon="@mipmap/icon_user"
+                    android:title="Muzzaki" />
+
+            </menu>
+        </item>
+
+        <item android:title="Ziswaf">
+            <menu>
+                <item
+                    android:id="@+id/zakat"
+                    android:icon="@mipmap/icon_zakat"
+                    android:title="Zakat" />
+                <item
+                    android:id="@+id/infaq_sodaqoh"
+                    android:icon="@mipmap/icon_zakat"
+                    android:title="Infak/Sodaqoh" />
+                <item
+                    android:id="@+id/wakaf"
+                    android:icon="@mipmap/icon_zakat"
+                    android:title="Wakaf" />
+            </menu>
+        </item>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/laporan"
+            android:icon="@mipmap/icon_laporan"
+            android:title="Laporan" />
+        <item
+            android:id="@+id/config"
+            android:icon="@mipmap/icon_user"
+            android:title="Pengaturan" />
+    </group>
+    </menu>

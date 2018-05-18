@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/terminalbottommenu"
+            android:animateLayoutChanges="true"/>
+
+            <!--<android.support.design.widget.BottomNavigationView-->
+                <!--android:id="@+id/navigation"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:background="@color/birumuda"-->
+                <!--app:itemIconTint="@color/colorAccent"-->
+                <!--app:itemTextColor="@color/putih"-->
+                <!--app:menu="@menu/buttom_nav_item"/>-->
+        <LinearLayout
+            android:id="@+id/terminalbottommenu"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:background="@color/birumuda"
+            android:gravity="center"
+            android:paddingTop="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="15dp">
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/btn_beranda"
+                    android:onClick="goberanda"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Beranda"
+                    android:textColor="@color/putih"
+                    android:textAlignment="center"
+                    android:textSize="9dp"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="#ffffff"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                >
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/btn_muzzaki"
+                    android:onClick="gomuzzaki"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Muzzaki"
+                    android:textColor="@color/putih"
+                    android:textAlignment="center"
+                    android:maxLines="2"
+                    android:textSize="9dp"/>
+
+            </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="#ffffff"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                >
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/btn_zakat"
+                    android:onClick="gotransaksi"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Zakat/Infak"
+                    android:textColor="@color/putih"
+                    android:textAlignment="center"
+                    android:textSize="9dp"/>
+
+            </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="#ffffff"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                >
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/btn_laporan"
+                    android:onClick="golaporan"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Laporan"
+                    android:textColor="@color/putih"
+                    android:textAlignment="center"
+                    android:textSize="9dp"/>
+
+            </LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:background="#ffffff"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="15dp"
+                >
+                <Button
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/btn_config"
+                    android:onClick="goconfig"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pengaturan"
+                    android:textColor="@color/putih"
+                    android:textAlignment="center"
+                    android:textSize="9dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

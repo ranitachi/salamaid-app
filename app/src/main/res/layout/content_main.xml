@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        tools:context="salam.ziswaf.ziswafsalam.ContentMain">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:id="@+id/layout_img"
+            android:textAlignment="center">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:textAlignment="center"
+                android:src="@mipmap/logosalamaid"/>
+
+        </LinearLayout>
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/layout_img">
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="top"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnpurabaya"
+                        android:layout_width="108dp"
+                        android:layout_height="122dp"
+                        android:background="@mipmap/icon_user"
+                        android:onClick="gototerminal"
+                        android:text="Terminal Purabaya"
+                        android:textColor="@android:color/transparent" />
+
+                    <Button
+                        android:id="@+id/btnsoekarno"
+                        android:layout_width="108dp"
+                        android:layout_height="122dp"
+                        android:background="@mipmap/icon_zakat"
+                        android:onClick="gototerminal"
+                        android:text="Terminal Ir. Soekarno"
+                        android:textColor="@android:color/transparent" />
+
+                    <Button
+                        android:id="@+id/btngiri"
+                        android:layout_width="108dp"
+                        android:layout_height="122dp"
+                        android:background="@mipmap/icon_laporan"
+                        android:onClick="gototerminal"
+                        android:text="Terminal Giri Adipura"
+                        android:textColor="@android:color/transparent" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/long_string" />
+            </LinearLayout>
+
+
+
+
+        </ScrollView>
+
+</RelativeLayout>
+

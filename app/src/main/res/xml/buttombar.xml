@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Tab>
+    <tab
+        id="@+id/icon_beranda"
+        icon="@mipmap/icon_beranda"
+        activeColor="@color/colorPrimaryDark"
+        titleSize="6dp"
+        title="Beranda"
+        />
+    <tab
+        id="@+id/icon_muzzaki"
+        icon="@mipmap/icon_user"
+        activeColor="@color/colorPrimaryDark"
+        titleSize="6dp"
+        title="Muzzaki"
+        />
+    <tab
+        id="@+id/icon_zakat"
+        icon="@mipmap/icon_zakat"
+        activeColor="@color/colorPrimaryDark"
+        titleSize="6dp"
+        title="Zakat/Infak"
+        />
+    <tab
+        id="@+id/icon_laporan"
+        icon="@mipmap/icon_laporan"
+        activeColor="@color/colorPrimaryDark"
+        titleSize="6dp"
+        title="Laporan"
+        />
+    <tab
+        id="@+id/icon_pengaturan"
+        icon="@mipmap/icon_config"
+        activeColor="@color/colorPrimaryDark"
+        titleSize="6dp"
+        title="Pengaturan"
+        />
+</Tab>
