@@ -2,21 +2,21 @@
 <Tab>
     <tab
         id="@+id/icon_beranda"
-        icon="@mipmap/icon_beranda"
+        icon="@mipmap/icon_beranda_new"
         activeColor="@color/colorPrimaryDark"
         titleSize="6dp"
         title="Beranda"
         />
     <tab
         id="@+id/icon_muzzaki"
-        icon="@mipmap/icon_user"
+        icon="@mipmap/icon_user_new"
         activeColor="@color/colorPrimaryDark"
         titleSize="6dp"
         title="Muzzaki"
         />
     <tab
         id="@+id/icon_zakat"
-        icon="@mipmap/icon_zakat"
+        icon="@mipmap/icon_zakat_new"
         activeColor="@color/colorPrimaryDark"
         titleSize="6dp"
         title="Zakat/Infak"

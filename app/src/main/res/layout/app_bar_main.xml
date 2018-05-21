@@ -57,21 +57,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_gravity="top"
                 android:layout_marginRight="15dp">
                 <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/btn_beranda"
                     android:onClick="goberanda"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerHorizontal="true"
                     android:scaleType="fitCenter" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Beranda"
-                    android:textColor="@color/putih"
-                    android:textAlignment="center"
-                    android:textSize="9dp"/>
+
 
             </LinearLayout>
 
@@ -84,25 +81,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_gravity="top"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
                 >
                 <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/btn_muzzaki"
                     android:onClick="gomuzzaki"
+                    android:layout_marginTop="5dp"
                     android:scaleType="fitCenter" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Muzzaki"
-                    android:textColor="@color/putih"
-                    android:textAlignment="center"
-                    android:maxLines="2"
-                    android:textSize="9dp"/>
-
             </LinearLayout>
             <View
                 android:layout_width="1dp"
@@ -112,23 +101,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_gravity="top"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
                 >
                 <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/btn_zakat"
                     android:onClick="gotransaksi"
+                    android:layout_marginTop="5dp"
                     android:scaleType="fitCenter" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Zakat/Infak"
-                    android:textColor="@color/putih"
-                    android:textAlignment="center"
-                    android:textSize="9dp"/>
 
             </LinearLayout>
             <View
@@ -139,23 +122,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_gravity="top"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
                 >
                 <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/btn_laporan"
-                    android:onClick="golaporan"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btn_zakat_transaksi"
+                    android:onClick="gotransaksizakat"
+                    android:layout_marginTop="5dp"
                     android:scaleType="fitCenter" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Laporan"
-                    android:textColor="@color/putih"
-                    android:textAlignment="center"
-                    android:textSize="9dp"/>
 
             </LinearLayout>
             <View
@@ -166,24 +143,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_gravity="top"
+                android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
                 >
                 <Button
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@drawable/btn_config"
-                    android:onClick="goconfig"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btn_laporan"
+                    android:onClick="golaporan"
+                    android:layout_marginTop="5dp"
                     android:scaleType="fitCenter" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Pengaturan"
-                    android:textColor="@color/putih"
-                    android:textAlignment="center"
-                    android:textSize="9dp"/>
-
             </LinearLayout>
+            <!--<View-->
+                <!--android:layout_width="1dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:background="#ffffff"/>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_gravity="top"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--&gt;-->
+                <!--<Button-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:background="@drawable/btn_config"-->
+                    <!--android:onClick="goconfig"-->
+                    <!--android:scaleType="fitCenter" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:text="Pengaturan"-->
+                    <!--android:textColor="@color/putih"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:maxLines="2"-->
+                    <!--android:textSize="8dp"/>-->
+
+            <!--</LinearLayout>-->
 
         </LinearLayout>
     </RelativeLayout>

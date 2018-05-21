@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/beranda"
-        android:icon="@mipmap/icon_beranda"
+        android:icon="@mipmap/icon_beranda_new"
         android:enabled="true"
         android:title="Beranda"/>
     <item
         android:id="@+id/action_item1"
-        android:icon="@mipmap/icon_user"
+        android:icon="@mipmap/icon_user_new"
         android:enabled="true"
         android:title="Muzzaki"/>
     <item
         android:id="@+id/action_item2"
-        android:icon="@mipmap/icon_zakat"
+        android:icon="@mipmap/icon_zakat_new"
         android:enabled="true"
         android:title="Zakat/Infak"/>
     <item

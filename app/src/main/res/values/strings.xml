@@ -19,4 +19,10 @@
         Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
         Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
     </string>
+    <string name="jenis_zakat">Zakat</string>
+    <string name="jenis_infak">Infak</string>
+    <string name="jenis_infak_siswa">Infak/Sedekah</string>
+    <string name="jenis_wakaf">Wakaf</string>
+    <string name="zakat_fitrah">Zakat Fitrah</string>
+    <string name="jenis_penerimaan">Jenis Penerimaan</string>
 </resources>

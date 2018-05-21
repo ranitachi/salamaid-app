@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="jenis_setoran">
+        <item>-Pilih Jenis Penerimaan-</item>
+        <item>@string/jenis_zakat</item>
+        <item>@string/jenis_infak</item>
+        <item>@string/jenis_wakaf</item>
+    </string-array>
+
+    <string-array name="jenis_setoran_siswa">
+        <item>-Pilih Jenis Penerimaan-</item>
+        <item>@string/zakat_fitrah</item>
+        <item>@string/jenis_infak_siswa</item>
+    </string-array>
+</resources>

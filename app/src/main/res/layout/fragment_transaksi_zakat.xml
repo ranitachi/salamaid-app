@@ -1,0 +1,128 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    tools:context="salam.ziswaf.ziswafsalam.FragmentTransaksiZakat">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:padding="30dp"
+        android:layout_marginTop="25dp">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:textAlignment="center"
+            android:src="@mipmap/logosalamaid"/>
+        <TextView
+            android:id="@+id/TextViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:text="Form Penerimaan Zakat/Infak/Wakaf"
+            android:textSize="7pt">
+        </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/titleNama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nama Muzzaki"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="6pt">
+            </TextView>
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteMuzzaki"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:textSize="6pt"
+                android:padding="5dp"
+                android:background="@drawable/editext"
+                android:layout_below="@+id/EditTextName"
+                android:layout_alignLeft="@+id/EditTextName"
+                android:layout_alignStart="@+id/EditTextName"
+                android:hint="Silahkan Ketik Nama Muzzaki">
+                <requestFocus />
+            </AutoCompleteTextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
+            <TextView
+                android:id="@+id/titleSetoran"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jumlah Zakat/Infak/Wakaf"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="6pt">
+            </TextView>
+            <EditText
+                android:id="@+id/txtNominal"
+                android:layout_height="40dp"
+                android:hint="Nominal (Rp)"
+                android:inputType="textPersonName"
+                android:layout_width="match_parent"
+                android:background="@drawable/editext"
+                android:padding="5dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="7pt">
+            </EditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
+            <TextView
+                android:id="@+id/titleJenis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jenis Penerimaan"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="6pt">
+            </TextView>
+            <Spinner
+                android:id="@+id/SpinnerJenis"
+                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:entries="@array/jenis_setoran"
+                android:autofillHints="Jenis Penerimaan"
+                android:background="@drawable/selecbox"
+                >
+            </Spinner>
+            <Spinner
+                android:id="@+id/dynamic_spinner"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:autofillHints="Jenis Penerimaan"
+                android:background="@drawable/selecbox"
+                />
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnSimpan"
+            android:layout_height="wrap_content"
+            android:text="Simpan Penerimaan"
+            android:background="@color/colorAccent"
+            android:textColor="@color/putih"
+            android:layout_marginTop="15dp"
+            android:layout_width="fill_parent">
+        </Button>
+    </LinearLayout>
+
+</ScrollView>
