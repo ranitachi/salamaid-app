@@ -103,7 +103,7 @@
                             <TextView
                                 android:id="@+id/textView2"
                                 android:minWidth="50dp"
-                                android:layout_width="90dp"
+                                android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="0dp"
                                 android:layout_alignParentLeft="true"
@@ -123,7 +123,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:padding="10dp"
                                 android:gravity="right|center_vertical"
-                                android:text="100.000"
+                                android:text="0"
                                 android:textSize="17dp"
                                 android:background="@drawable/editext"
                                 android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -146,7 +146,7 @@
                             <TextView
                                 android:id="@+id/textView3"
                                 android:minWidth="50dp"
-                                android:layout_width="90dp"
+                                android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="0dp"
                                 android:layout_alignParentLeft="true"
@@ -166,7 +166,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:padding="10dp"
                                 android:gravity="right|center_vertical"
-                                android:text="100.000"
+                                android:text="0"
                                 android:textSize="17dp"
                                 android:background="@drawable/editext"
                                 android:textAppearance="?android:attr/textAppearanceMedium" />
@@ -190,7 +190,7 @@
                             <TextView
                                 android:id="@+id/textView1"
                                 android:minWidth="50dp"
-                                android:layout_width="90dp"
+                                android:layout_width="100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="0dp"
                                 android:layout_alignParentLeft="true"
@@ -210,7 +210,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:padding="10dp"
                                 android:gravity="right|center_vertical"
-                                android:text="100.000"
+                                android:text="0"
 
                                 android:textSize="17dp"
                                 android:background="@drawable/editext"
@@ -234,7 +234,7 @@
                             <TextView
                                 android:id="@+id/textView4"
                                 android:minWidth="50dp"
-                                android:layout_width="90dp"
+                                android:layout_width="100dp"
                                 android:layout_height="30dp"
                                 android:layout_marginBottom="0dp"
                                 android:layout_alignParentLeft="true"
@@ -254,7 +254,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:padding="10dp"
                                 android:gravity="right|center_vertical"
-                                android:text="100.000"
+                                android:text="0"
 
                                 android:textSize="17dp"
                                 android:background="@drawable/editext"
@@ -278,7 +278,7 @@
                             <TextView
                                 android:id="@+id/textView5"
                                 android:minWidth="50dp"
-                                android:layout_width="90dp"
+                                android:layout_width="100dp"
                                 android:layout_height="30dp"
                                 android:layout_marginBottom="0dp"
                                 android:layout_alignParentLeft="true"
@@ -298,7 +298,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:padding="10dp"
                                 android:gravity="right|center_vertical"
-                                android:text="100.000"
+                                android:text="0"
 
                                 android:textSize="17dp"
                                 android:background="@drawable/editext"
@@ -322,14 +322,14 @@
                             <TextView
                                 android:id="@+id/textView6"
                                 android:minWidth="50dp"
-                                android:layout_width="90dp"
+                                android:layout_width="100dp"
                                 android:layout_height="30dp"
                                 android:layout_marginBottom="0dp"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginTop="5dp"
                                 android:paddingBottom="0dp"
-                                android:text="Infak Ramadhan"
-                                android:textSize="12dp"
+                                android:text="Infak Ambulance"
+                                android:textSize="10dp"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
                             <TextView
                                 android:layout_height="match_parent"
@@ -342,7 +342,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:padding="10dp"
                                 android:gravity="right|center_vertical"
-                                android:text="100.000"
+                                android:text="0"
 
                                 android:textSize="17dp"
                                 android:background="@drawable/editext"
@@ -366,14 +366,14 @@
                             <TextView
                                 android:id="@+id/textView7"
                                 android:minWidth="50dp"
-                                android:layout_width="90dp"
+                                android:layout_width="100dp"
                                 android:layout_height="30dp"
                                 android:layout_marginBottom="0dp"
                                 android:layout_alignParentLeft="true"
                                 android:layout_marginTop="5dp"
                                 android:paddingBottom="0dp"
-                                android:text="Infak Ramadhan"
-                                android:textSize="12dp"
+                                android:text="Wakaf Rumah Sehat"
+                                android:textSize="10sp"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
                             <TextView
                                 android:layout_height="match_parent"
@@ -384,9 +384,53 @@
                                 android:layout_toRightOf="@id/textView7"
                                 android:checked="false"
                                 android:layout_marginLeft="15dp"
-                                android:padding="5dp"
+                                android:padding="10dp"
                                 android:gravity="right|center_vertical"
-                                android:text="100.000"
+                                android:text="0"
+
+                                android:textSize="17dp"
+                                android:background="@drawable/editext"
+                                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:orientation="horizontal"
+                            android:id="@+id/feedTotal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:paddingTop="5dp">
+                            <TextView
+                                android:id="@+id/txtTotal"
+                                android:minWidth="50dp"
+                                android:layout_width="100dp"
+                                android:layout_height="30dp"
+                                android:layout_marginBottom="0dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_marginTop="5dp"
+                                android:paddingBottom="0dp"
+                                android:text="Total"
+                                android:textSize="10sp"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+                            <TextView
+                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:id="@+id/jlhTotal"
+                                android:textStyle="bold"
+                                android:layout_alignBaseline="@id/txtTotal"
+                                android:layout_toRightOf="@id/txtTotal"
+                                android:checked="false"
+                                android:layout_marginLeft="15dp"
+                                android:padding="10dp"
+                                android:gravity="right|center_vertical"
+                                android:text="0"
 
                                 android:textSize="17dp"
                                 android:background="@drawable/editext"

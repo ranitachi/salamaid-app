@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +22,8 @@ import com.kosalgeek.android.caching.FileCacher;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String uri = "http://keuangan.sekolahalambogor.id/json/json_siswa_nis";
     String uri2 = "http://keuangan.sekolahalambogor.id/json/json_jenis_setoran";
     String uri3 = "http://keuangan.sekolahalambogor.id/json/json_muzzaki";
+    String uri4 = "http://keuangan.sekolahalambogor.id/json/json_kelas";
+    String uri5 ="http://keuangan.sekolahalambogor.id/json/json_penerimaan/";
     FragmentManager fragmentManager;
     Bundle bundle;
     FileCacher<String> stringCacher;
@@ -43,6 +48,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getsiswa(uri);
+        getjenissetoran(uri2);
+        getmuzzaki(uri3);
+        getkelas(uri4);
+        gettransaksi(uri5);
+
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_layout, ContentMain.newInstance());
@@ -58,9 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
-        getsiswa(uri);
-        getjenissetoran(uri2);
-        getmuzzaki(uri3);
+
     }
 
     @Override
@@ -288,6 +298,97 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+    private void getkelas(String uri){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(uri, new JsonHttpResponseHandler(){
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
 
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+
+                    stringCacher= new FileCacher<>(MainActivity.this, "datakelas.txt");
+                    stringCacher.writeCache('['+response.toString()+']');
+                    Log.d("KELAS", "onSuccess: " + '['+response.toString()+']');
+
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.d("GETJENIS", "onFailure: "+responseString);
+            }
+        });
+    }
+    private void gettransaksi(String uri){
+        String user_login,c_user="";
+        try
+        {
+            FileCacher<String> user = new FileCacher<String>(MainActivity.this, "datauser.txt");
+            if (user.hasCache()) {
+                user_login = user.readCache();
+                JSONObject objUser=new JSONObject(user_login);
+                JSONObject d_user = objUser.getJSONObject("data");
+                c_user = d_user.getString("nama");
+
+            }
+        }
+        catch (JSONException e)
+        {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(), e.toString(), Toast.LENGTH_LONG
+            );
+            toast.setGravity(Gravity.BOTTOM,0,0);
+            toast.show();
+        }
+        catch (IOException e)
+        {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(), e.toString(), Toast.LENGTH_LONG
+            );
+            toast.setGravity(Gravity.BOTTOM,0,0);
+            toast.show();
+        }
+
+        String url=uri+c_user;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+
+                    stringCacher= new FileCacher<>(MainActivity.this, "datatransaksi.txt");
+                    stringCacher.writeCache(response.toString());
+                    Log.d("TRANSAKSI", "onSuccess: " +response.toString());
+
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.d("GETJENIS", "onFailure: "+responseString);
+            }
+        });
+    }
 
 }

@@ -14,11 +14,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,6 +29,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +49,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.ClientProtocolException;
 import cz.msebera.android.httpclient.client.HttpClient;
@@ -58,7 +64,7 @@ import salam.ziswaf.ziswafsalam.kelas.Utils;
 import salam.ziswaf.ziswafsalam.kelas.Terbilang;
 public class FragmentTransaksi extends Fragment implements Runnable{
 
-    String[] dataSiswa;
+    String[] dataSiswa,dataKelas;
     String strJson;
     Button btnSimpan;
     protected static final String TAG = "TAG";
@@ -73,9 +79,9 @@ public class FragmentTransaksi extends Fragment implements Runnable{
     private static OutputStream outputStream;
     AutoCompleteTextView textView;
     EditText nJumlah;
-    Spinner cJenis;
-
-    String c_siswa,n_jumlah,c_jenis,cKwitansi,cTanggal,c_user="";
+    Spinner cJenis,cKelas,cSiswa;
+    FileCacher<String> stringCacher;
+    String c_siswa,n_jumlah,c_jenis,cKwitansi,cTanggal,c_user,c_kelas,data_siswa,level_kelas,nama_kelas="";
     String c_amilin="";
     public static FragmentTransaksi newInstance() {
         FragmentTransaksi fragment = new FragmentTransaksi();
@@ -93,34 +99,55 @@ public class FragmentTransaksi extends Fragment implements Runnable{
 
         try {
 
-            FileCacher<String> term = new FileCacher<String>(getActivity(),"datasiswajson.txt");
-
-
-            if(term.hasCache())
-            {
-                    strJson=term.readCache();
-                    Log.d("Data Siswa : ",strJson);
-                    JSONArray jr = new JSONArray(strJson);
-                    JSONObject jb = jr.getJSONObject(0);
-                    JSONArray st = jb.getJSONArray("results");
-                    dataSiswa=new String[st.length()];
-                    for(int i=0;i<st.length();i++)
-                    {
-                        String nama = st.getString(i);
-                        JSONObject subjb=new JSONObject(nama);
-                        String nm=subjb.optString("nama");
-                        String kls=subjb.optString("kelas");
-                        Log.i("Tambah :",""+nm);
-                        dataSiswa[i]=nm+" :: "+kls;
-                    }
-
-            }
+//            FileCacher<String> term = new FileCacher<String>(getActivity(),"datasiswajson.txt");
+//            if(term.hasCache())
+//            {
+//                    strJson=term.readCache();
+//                    Log.d("Data Siswa : ",strJson);
+//                    JSONArray jr = new JSONArray(strJson);
+//                    JSONObject jb = jr.getJSONObject(0);
+//                    JSONArray st = jb.getJSONArray("results");
+//                    dataSiswa=new String[st.length()];
+//                    for(int i=0;i<st.length();i++)
+//                    {
+//                        String nama = st.getString(i);
+//                        JSONObject subjb=new JSONObject(nama);
+//                        String nm=subjb.optString("nama");
+//                        String kls=subjb.optString("kelas");
+//                        Log.i("Tambah :",""+nm);
+//                        dataSiswa[i]=nm+" :: "+kls;
+//                    }
+//
+//            }
             FileCacher<String> user = new FileCacher<String>(getActivity(), "datauser.txt");
             if (user.hasCache()) {
                 c_user = user.readCache();
                 JSONObject objUser=new JSONObject(c_user);
                 JSONObject d_user = objUser.getJSONObject("data");
                 c_amilin = d_user.getString("nama");
+            }
+            FileCacher<String> kelas = new FileCacher<String>(getActivity(), "datakelas.txt");
+            if (user.hasCache()) {
+                c_kelas = kelas.readCache();
+                Log.d("Data Kelas : ",c_kelas);
+                JSONArray jr = new JSONArray(c_kelas);
+                JSONObject jb = jr.getJSONObject(0);
+                JSONArray d_user = jb.getJSONArray("kelas");
+                JSONObject d_siswa = jb.getJSONObject("siswa");
+                data_siswa=d_siswa.toString();
+                Log.d("DKELAS :",""+d_user.toString());
+                Log.d("DSISWA :",""+data_siswa);
+                dataKelas=new String[(d_user.length()+1)];
+                dataKelas[0]="-Pilih Kelas-";
+                for(int i=0;i<d_user.length();i++)
+                {
+                    String nama = d_user.getString(i);
+                    JSONObject subjb=new JSONObject(nama);
+                    String lvl=subjb.optString("kategori").toUpperCase();
+                    String kls=subjb.optString("nama_batch");
+
+                    dataKelas[(i+1)]=lvl+"-"+kls;
+                }
             }
 
         }catch(Exception e)
@@ -145,10 +172,68 @@ public class FragmentTransaksi extends Fragment implements Runnable{
         textView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteMuzzaki);
         nJumlah = (EditText) view.findViewById(R.id.EditTextNominal);
         cJenis = (Spinner) view.findViewById(R.id.SpinnerJenis);
+        cSiswa = (Spinner) view.findViewById(R.id.spinSiswa);
 
-        ArrayAdapter<String> adapter =  new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dataSiswa);
-//        ArrayAdapter<String> adapter =  new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, languages);
-        textView.setAdapter(adapter);
+        cKelas = (Spinner) view.findViewById(R.id.spinKelas);
+
+        ArrayAdapter<String> adapterr = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, dataKelas);
+        adapterr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cKelas.setAdapter(adapterr);
+
+        cKelas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                String getSiswa = (String) parent.getItemAtPosition(position);
+                Log.d("Load Siswa : ", data_siswa);
+                if(!getSiswa.equalsIgnoreCase("-pilih kelas-")) {
+                    try {
+                        JSONObject ds = new JSONObject(data_siswa);
+                        JSONArray arr_sis = ds.getJSONArray(getSiswa);
+                        dataSiswa=new String[arr_sis.length()+1];
+                        dataSiswa[0]="-Pilih Siswa-";
+                        for(int i=0;i<arr_sis.length();i++)
+                        {
+                            String nama = arr_sis.getString(i);
+                            JSONObject subjb=new JSONObject(nama);
+                            String nm=subjb.optString("nama");
+                            String nis=subjb.optString("nisn");
+                            Log.i("Tambah :",""+nm);
+                            dataSiswa[i]=nm+" :: "+nis;
+                        }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                                android.R.layout.simple_spinner_item, dataSiswa);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        cSiswa.setAdapter(adapter);
+
+//                        ArrayAdapter<String> adapter =  new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, dataSiswa);
+//                        textView.setAdapter(adapter);
+                        Log.d("Item Dipilih : ", (String) parent.getItemAtPosition(position));
+                        //Log.d("Jlh Siswa : ", String.valueOf(arr_sis.length()));
+                    } catch (JSONException e) {
+                        Log.d("Error Load Siswa : ", e.toString());
+                        Toast toast = Toast.makeText(
+                                getActivity().getApplicationContext(), e.toString(), Toast.LENGTH_LONG
+                        );
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                }
+
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+
 
         return view;
     }
@@ -162,7 +247,8 @@ public class FragmentTransaksi extends Fragment implements Runnable{
         return new Runnable() {
             public void run() {
                 //doWebViewPrint();
-                c_siswa = textView.getText().toString();
+                //c_siswa = textView.getText().toString();
+                c_siswa=cSiswa.getSelectedItem().toString();
                 n_jumlah = nJumlah.getText().toString();
                 c_jenis = cJenis.getSelectedItem().toString();
                 if(c_siswa.equals(""))
@@ -224,9 +310,13 @@ public class FragmentTransaksi extends Fragment implements Runnable{
                         HttpResponse response = httpclient.execute(httppost);
                         String responseBody = EntityUtils.toString(response.getEntity());
 
-                        textView.setText("");
+                        //textView.setText("");
                         nJumlah.setText("");
-
+                        cSiswa.setAdapter(null);
+                        ArrayAdapter<String> adapterr = new ArrayAdapter<String>(getActivity(),
+                                android.R.layout.simple_spinner_item, dataKelas);
+                        adapterr.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        cKelas.setAdapter(adapterr);
                         JSONObject resp = new JSONObject(responseBody);
                         String pesan = resp.optString("response");
 
@@ -328,12 +418,18 @@ public class FragmentTransaksi extends Fragment implements Runnable{
                 printNewLine();
                 printNewLine();
                 outputStream.flush();
+                gettransaksi();
+                //reloadfragment();
+
+                mBluetoothSocket.close();
+                outputStream.close();
             }
             catch (IOException e) {
                 //e.printStackTrace();
                 // Log.d("Error 3 : ", e.toString());
                 Toast.makeText(getActivity().getApplicationContext(), "Error 3 : " + e.toString(), Toast.LENGTH_LONG).show();
             }
+            //reloadfragment();
         }
     }
 
@@ -611,6 +707,103 @@ public class FragmentTransaksi extends Fragment implements Runnable{
             mBluetoothConnectProgressDialog.dismiss();
             Toast.makeText(getActivity(), "DeviceConnected", Toast.LENGTH_SHORT).show();
             cetakStruk();
+            //mBluetoothAdapter=null;
+            //closeSocket(mBluetoothSocket);
+            //reloadfragment();
+
         }
     };
+
+    private void gettransaksi(){
+        String user_login,c_user="";
+        try
+        {
+            FileCacher<String> user = new FileCacher<String>(getActivity(), "datauser.txt");
+            if (user.hasCache()) {
+                user_login = user.readCache();
+                JSONObject objUser=new JSONObject(user_login);
+                JSONObject d_user = objUser.getJSONObject("data");
+                c_user = d_user.getString("nama");
+
+            }
+        }
+        catch (JSONException e)
+        {
+            Toast toast = Toast.makeText(
+                    getActivity().getApplicationContext(), e.toString(), Toast.LENGTH_LONG
+            );
+            toast.setGravity(Gravity.BOTTOM,0,0);
+            toast.show();
+        }
+        catch (IOException e)
+        {
+            Toast toast = Toast.makeText(
+                    getActivity().getApplicationContext(), e.toString(), Toast.LENGTH_LONG
+            );
+            toast.setGravity(Gravity.BOTTOM,0,0);
+            toast.show();
+        }
+        String uri ="http://keuangan.sekolahalambogor.id/json/json_penerimaan/";
+        String url=uri+c_user;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+
+                    stringCacher= new FileCacher<>(getActivity(), "datatransaksi.txt");
+                    stringCacher.writeCache(response.toString());
+                    Log.d("TRANSAKSI", "onSuccess: " +response.toString());
+
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.d("GETJENIS", "onFailure: "+responseString);
+            }
+        });
+    }
+    public void reloadfragment()
+    {
+//        Fragment frg = null;
+//        //FragmentTransaction
+//        frg = getFragmentManager().findFragmentByTag("fragment_transaksi");
+//        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.detach(frg);
+//        ft.attach(frg);
+//        ft.commit();
+        //getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        FragmentTransaction ftr = getFragmentManager().beginTransaction();
+        ftr.detach(FragmentTransaksi.this).attach(FragmentTransaksi.this).commit();
+    }
+
+//    private void resetConnection() {
+//        if (mBTInputStream != null) {
+//            try {mBTInputStream.close();} catch (Exception e) {}
+//            mBTInputStream = null;
+//        }
+//
+//        if (mBTOutputStream != null) {
+//            try {mBTOutputStream.close();} catch (Exception e) {}
+//            mBTOutputStream = null;
+//        }
+//
+//        if (mBTSocket != null) {
+//            try {mBTSocket.close();} catch (Exception e) {}
+//            mBTSocket = null;
+//        }
+//
+//    }
 }

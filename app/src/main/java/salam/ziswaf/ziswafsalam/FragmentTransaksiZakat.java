@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.kosalgeek.android.caching.FileCacher;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,6 +49,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.client.ClientProtocolException;
 import cz.msebera.android.httpclient.client.HttpClient;
@@ -69,8 +73,8 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
     Button btnSimpan;
     JSONArray dataJsonArr = null;
     AutoCompleteTextView textView;
-    EditText nJumlah;
-    String c_muzzaki,n_jumlah,c_jenis,cKwitansi,cTanggal,c_user="";
+    EditText nJumlah,cKeterangan;
+    String c_muzzaki,n_jumlah,c_jenis,cKwitansi,cTanggal,c_user,c_keterangan="";
     String c_amilin="";
     protected static final String TAG = "TAG";
     private static final int REQUEST_CONNECT_DEVICE = 1;
@@ -82,7 +86,7 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
     private BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
     private static OutputStream outputStream;
-
+    FileCacher<String> stringCacher;
     public static FragmentTransaksi newInstance() {
         FragmentTransaksi fragment = new FragmentTransaksi();
         return fragment;
@@ -215,6 +219,7 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
         });
 
         nJumlah = (EditText) view.findViewById(R.id.txtNominal);
+        cKeterangan = (EditText) view.findViewById(R.id.txtKeterangan);
         btnSimpan = (Button) view.findViewById(R.id.btnSimpan);
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,6 +249,7 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
                 //doWebViewPrint();
                 c_muzzaki = textView.getText().toString();
                 n_jumlah = nJumlah.getText().toString();
+                c_keterangan = cKeterangan.getText().toString();
                 c_jenis = dynamicSpinner.getSelectedItem().toString();
                 if(c_muzzaki.equals(""))
                 {
@@ -291,6 +297,7 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
                         json.put("jumlah",n_jumlah);
                         json.put("jenis",c_jenis);
                         json.put("kwitansi",cKwitansi);
+                        json.put("keterangan",c_keterangan);
                         json.put("amilin",c_amilin);
                         json.put("flag",2);
 
@@ -306,7 +313,9 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
 
                         textView.setText("");
                         nJumlah.setText("");
-
+                        cKeterangan.setText("");
+                        //spinnerJenis.setAdapter(null);
+                        dynamicSpinner.setAdapter(null);
                         JSONObject resp = new JSONObject(responseBody);
                         String pesan = resp.optString("response");
 
@@ -408,6 +417,9 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
                 printNewLine();
                 printNewLine();
                 outputStream.flush();
+                gettransaksi();
+                mBluetoothSocket.close();
+                outputStream.close();
             }
             catch (IOException e) {
                 //e.printStackTrace();
@@ -691,6 +703,81 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
             mBluetoothConnectProgressDialog.dismiss();
             Toast.makeText(getActivity(), "DeviceConnected", Toast.LENGTH_SHORT).show();
             cetakStruk();
+
+            //mBluetoothAdapter=null;
+            //closeSocket(mBluetoothSocket);
+            //reloadfragment();
         }
     };
+    private void gettransaksi(){
+        String user_login,c_user="";
+        try
+        {
+            FileCacher<String> user = new FileCacher<String>(getActivity(), "datauser.txt");
+            if (user.hasCache()) {
+                user_login = user.readCache();
+                JSONObject objUser=new JSONObject(user_login);
+                JSONObject d_user = objUser.getJSONObject("data");
+                c_user = d_user.getString("nama");
+
+            }
+        }
+        catch (JSONException e)
+        {
+            Toast toast = Toast.makeText(
+                    getActivity().getApplicationContext(), e.toString(), Toast.LENGTH_LONG
+            );
+            toast.setGravity(Gravity.BOTTOM,0,0);
+            toast.show();
+        }
+        catch (IOException e)
+        {
+            Toast toast = Toast.makeText(
+                    getActivity().getApplicationContext(), e.toString(), Toast.LENGTH_LONG
+            );
+            toast.setGravity(Gravity.BOTTOM,0,0);
+            toast.show();
+        }
+        String uri ="http://keuangan.sekolahalambogor.id/json/json_penerimaan/";
+        String url=uri+c_user;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+
+                    stringCacher= new FileCacher<>(getActivity(), "datatransaksi.txt");
+                    stringCacher.writeCache(response.toString());
+                    Log.d("TRANSAKSI", "onSuccess: " +response.toString());
+
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.d("GETJENIS", "onFailure: "+responseString);
+            }
+        });
+    }
+    public void reloadfragment()
+    {
+//        Fragment frg = null;
+//        //FragmentTransaction
+//        frg = getFragmentManager().findFragmentByTag("fragment_transaksi_zakat");
+//        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.detach(frg);
+//        ft.attach(frg);
+//        ft.commit();
+    }
 }

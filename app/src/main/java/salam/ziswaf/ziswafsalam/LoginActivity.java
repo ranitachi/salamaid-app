@@ -34,6 +34,7 @@ public class LoginActivity extends Activity implements OnClickListener{
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
     private Boolean saveLogin;
+    String cUser="";
     FileCacher<String> stringCacher;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,7 @@ public class LoginActivity extends Activity implements OnClickListener{
                         JSONObject jsonObject = new JSONObject(response.toString());
                         String status = jsonObject.getString("response");
                         Log.d("GETJENIS", "onSuccess: " + '[' + response.toString() + ']');
+                        cUser=response.toString();
                         if(status.equals("success")) {
 
 
@@ -101,6 +103,7 @@ public class LoginActivity extends Activity implements OnClickListener{
                             }
 
                             doSomethingElse();
+
                         }
                         else {
                             Toast toast = Toast.makeText(
@@ -143,7 +146,59 @@ public class LoginActivity extends Activity implements OnClickListener{
         }
     }
     public void doSomethingElse() {
+        //gettransaksi();
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
         LoginActivity.this.finish();
+    }
+    private void gettransaksi(){
+        String user_login,c_user="";
+        try
+        {
+                JSONObject objUser=new JSONObject(cUser);
+                JSONObject d_user = objUser.getJSONObject("data");
+                c_user = d_user.getString("nama");
+
+
+        }
+        catch (JSONException e)
+        {
+            Toast toast = Toast.makeText(
+                    getApplicationContext(), e.toString(), Toast.LENGTH_LONG
+            );
+            toast.setGravity(Gravity.BOTTOM,0,0);
+            toast.show();
+        }
+
+        String uri ="http://keuangan.sekolahalambogor.id/json/json_penerimaan/";
+        String url=uri+c_user;
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+
+                try {
+
+                    stringCacher= new FileCacher<>(LoginActivity.this, "datatransaksi.txt");
+                    stringCacher.writeCache(response.toString());
+                    Log.d("TRANSAKSI", "onSuccess: " +response.toString());
+
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                Log.d("GETJENIS", "onFailure: "+responseString);
+            }
+        });
     }
 }

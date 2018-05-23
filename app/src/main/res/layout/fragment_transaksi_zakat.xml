@@ -114,6 +114,32 @@
                 android:background="@drawable/selecbox"
                 />
         </LinearLayout>
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="15dp">
+            <TextView
+                android:id="@+id/titleKeterangan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Keterangan"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="6pt">
+            </TextView>
+            <EditText
+                android:id="@+id/txtKeterangan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/editext"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:gravity="top"
+                android:lines="3"
+                android:padding="5dp"
+                android:scrollHorizontally="false" />
+        </LinearLayout>
         <Button
             android:id="@+id/btnSimpan"
             android:layout_height="wrap_content"

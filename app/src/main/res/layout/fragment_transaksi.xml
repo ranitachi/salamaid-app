@@ -33,6 +33,29 @@
             android:orientation="vertical"
             android:layout_marginTop="20dp">
             <TextView
+                android:id="@+id/titleKelas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kelas"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="6pt">
+            </TextView>
+
+            <Spinner
+                android:id="@+id/spinKelas"
+                android:layout_height="35dp"
+                android:layout_width="match_parent"
+                android:autofillHints="Jenis Penerimaan"
+                android:background="@drawable/selecbox">
+            </Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp">
+            <TextView
                 android:id="@+id/titleNama"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,21 +63,27 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="6pt">
             </TextView>
-
-            <AutoCompleteTextView
-                android:id="@+id/autoCompleteMuzzaki"
+            <Spinner
+                android:id="@+id/spinSiswa"
+                android:layout_height="35dp"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:ems="10"
-                android:textSize="6pt"
-                android:padding="5dp"
-                android:background="@drawable/editext"
-                android:layout_below="@+id/EditTextName"
-                android:layout_alignLeft="@+id/EditTextName"
-                android:layout_alignStart="@+id/EditTextName"
-                android:hint="Silahkan Ketik Nama Siswa">
-                <requestFocus />
-            </AutoCompleteTextView>
+                android:autofillHints="Pilih Siswa"
+                android:background="@drawable/selecbox">
+            </Spinner>
+            <!--<AutoCompleteTextView-->
+                <!--android:id="@+id/autoCompleteMuzzaki"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:ems="10"-->
+                <!--android:textSize="6pt"-->
+                <!--android:padding="5dp"-->
+                <!--android:background="@drawable/editext"-->
+                <!--android:layout_below="@+id/EditTextName"-->
+                <!--android:layout_alignLeft="@+id/EditTextName"-->
+                <!--android:layout_alignStart="@+id/EditTextName"-->
+                <!--android:hint="Silahkan Ketik Nama Siswa">-->
+                <!--<requestFocus />-->
+            <!--</AutoCompleteTextView>-->
         </LinearLayout>
 
         <LinearLayout
