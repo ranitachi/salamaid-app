@@ -62,6 +62,7 @@ import salam.ziswaf.ziswafsalam.kelas.DialogHandler;
 import salam.ziswaf.ziswafsalam.kelas.PrinterCommands;
 import salam.ziswaf.ziswafsalam.kelas.Utils;
 import salam.ziswaf.ziswafsalam.kelas.Terbilang;
+import salam.ziswaf.ziswafsalam.kelas.Transaksi;
 public class FragmentTransaksi extends Fragment implements Runnable{
 
     String[] dataSiswa,dataKelas;
@@ -78,11 +79,14 @@ public class FragmentTransaksi extends Fragment implements Runnable{
     BluetoothDevice mBluetoothDevice;
     private static OutputStream outputStream;
     AutoCompleteTextView textView;
-    EditText nJumlah;
+    EditText nJumlah,cKeterangan;
     Spinner cJenis,cKelas,cSiswa;
     FileCacher<String> stringCacher;
-    String c_siswa,n_jumlah,c_jenis,cKwitansi,cTanggal,c_user,c_kelas,data_siswa,level_kelas,nama_kelas="";
+    String c_siswa,n_jumlah,c_jenis,cKwitansi,cTanggal,c_user,c_kelas,data_siswa,level_kelas,nama_kelas,c_keterangan="";
     String c_amilin="";
+
+    Transaksi trans=new Transaksi();
+
     public static FragmentTransaksi newInstance() {
         FragmentTransaksi fragment = new FragmentTransaksi();
         return fragment;
@@ -173,7 +177,7 @@ public class FragmentTransaksi extends Fragment implements Runnable{
         nJumlah = (EditText) view.findViewById(R.id.EditTextNominal);
         cJenis = (Spinner) view.findViewById(R.id.SpinnerJenis);
         cSiswa = (Spinner) view.findViewById(R.id.spinSiswa);
-
+        cKeterangan = (EditText) view.findViewById(R.id.txtKeterangan);
         cKelas = (Spinner) view.findViewById(R.id.spinKelas);
 
         ArrayAdapter<String> adapterr = new ArrayAdapter<String>(getActivity(),
@@ -201,7 +205,7 @@ public class FragmentTransaksi extends Fragment implements Runnable{
                             String nm=subjb.optString("nama");
                             String nis=subjb.optString("nisn");
                             Log.i("Tambah :",""+nm);
-                            dataSiswa[i]=nm+" :: "+nis;
+                            dataSiswa[i+1]=nm+" :: "+nis;
                         }
 
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
@@ -251,6 +255,7 @@ public class FragmentTransaksi extends Fragment implements Runnable{
                 c_siswa=cSiswa.getSelectedItem().toString();
                 n_jumlah = nJumlah.getText().toString();
                 c_jenis = cJenis.getSelectedItem().toString();
+                c_keterangan = cKeterangan.getText().toString();
                 if(c_siswa.equals(""))
                 {
                     Toast toast = Toast.makeText(
@@ -297,6 +302,7 @@ public class FragmentTransaksi extends Fragment implements Runnable{
                         json.put("jumlah",n_jumlah);
                         json.put("jenis",c_jenis);
                         json.put("kwitansi",cKwitansi);
+                        json.put("keterangan",c_keterangan);
                         json.put("amilin",c_amilin);
                         json.put("flag",1);
 
@@ -327,6 +333,7 @@ public class FragmentTransaksi extends Fragment implements Runnable{
                         );
                         toast.setGravity(Gravity.BOTTOM,0,0);
                         toast.show();
+                        gettransaksi();
                     }
                     catch (ClientProtocolException e) {
                         Log.d("JSON Client : ",e.getMessage());
@@ -399,6 +406,7 @@ public class FragmentTransaksi extends Fragment implements Runnable{
                 printCustom("Kelas         : "+separated[1].trim(),0,0);
                 printCustom("Jenis Setoran : "+c_jenis,0,0);
                 printCustom("Jumlah        : Rp. "+jlh_setor,0,0);
+                printCustom("Keterangan        : "+c_keterangan,0,0);
 
                 printCustom(new String(new char[32]).replace("\0", "."),0,1);
 
@@ -418,11 +426,13 @@ public class FragmentTransaksi extends Fragment implements Runnable{
                 printNewLine();
                 printNewLine();
                 outputStream.flush();
-                gettransaksi();
+
                 //reloadfragment();
 
                 mBluetoothSocket.close();
                 outputStream.close();
+
+                //trans.updateBiodata(cKwitansi);
             }
             catch (IOException e) {
                 //e.printStackTrace();
@@ -649,8 +659,7 @@ public class FragmentTransaksi extends Fragment implements Runnable{
                                     + mBluetoothDevice.getAddress(), true, false);
                     Thread mBlutoothConnectThread = new Thread(this);
                     mBlutoothConnectThread.start();
-                    // pairToDevice(mBluetoothDevice); This method is replaced by
-                    // progress dialog with thread
+
                 }
                 break;
 
@@ -777,33 +786,8 @@ public class FragmentTransaksi extends Fragment implements Runnable{
     }
     public void reloadfragment()
     {
-//        Fragment frg = null;
-//        //FragmentTransaction
-//        frg = getFragmentManager().findFragmentByTag("fragment_transaksi");
-//        final FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.detach(frg);
-//        ft.attach(frg);
-//        ft.commit();
-        //getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         FragmentTransaction ftr = getFragmentManager().beginTransaction();
         ftr.detach(FragmentTransaksi.this).attach(FragmentTransaksi.this).commit();
     }
 
-//    private void resetConnection() {
-//        if (mBTInputStream != null) {
-//            try {mBTInputStream.close();} catch (Exception e) {}
-//            mBTInputStream = null;
-//        }
-//
-//        if (mBTOutputStream != null) {
-//            try {mBTOutputStream.close();} catch (Exception e) {}
-//            mBTOutputStream = null;
-//        }
-//
-//        if (mBTSocket != null) {
-//            try {mBTSocket.close();} catch (Exception e) {}
-//            mBTSocket = null;
-//        }
-//
-//    }
 }

@@ -62,7 +62,7 @@ import salam.ziswaf.ziswafsalam.kelas.DialogHandler;
 import salam.ziswaf.ziswafsalam.kelas.PrinterCommands;
 import salam.ziswaf.ziswafsalam.kelas.Terbilang;
 import salam.ziswaf.ziswafsalam.kelas.Utils;
-
+import salam.ziswaf.ziswafsalam.kelas.Transaksi;
 public class FragmentTransaksiZakat extends Fragment implements Runnable{
     AutoCompleteTextView text;
     String[] dataSiswa, dataZakat, dataInfak, dataWakaf;
@@ -75,7 +75,7 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
     AutoCompleteTextView textView;
     EditText nJumlah,cKeterangan;
     String c_muzzaki,n_jumlah,c_jenis,cKwitansi,cTanggal,c_user,c_keterangan="";
-    String c_amilin="";
+    String c_amilin,telepon="";
     protected static final String TAG = "TAG";
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
@@ -87,6 +87,7 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
     BluetoothDevice mBluetoothDevice;
     private static OutputStream outputStream;
     FileCacher<String> stringCacher;
+    Transaksi trans = new Transaksi();
     public static FragmentTransaksi newInstance() {
         FragmentTransaksi fragment = new FragmentTransaksi();
         return fragment;
@@ -112,14 +113,21 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
                 JSONArray jr = new JSONArray(strJson);
                 JSONObject jb = jr.getJSONObject(0);
                 JSONArray st = jb.getJSONArray("result");
-                dataSiswa = new String[st.length()];
+                dataSiswa = new String[st.length()+1];
+                dataSiswa[0]="-Pilih Muzzaki-";
                 for (int i = 0; i < st.length(); i++) {
                     String nama = st.getString(i);
                     JSONObject subjb = new JSONObject(nama);
                     String nm = subjb.optString("nama");
                     String tlp = subjb.optString("telp");
                     Log.i("Tambah :", "" + nm);
-                    dataSiswa[i] = nm+"::"+tlp;
+                    if(tlp.equals("")) {
+                         telepon = "n/a";
+                    }
+                    else {
+                         telepon = tlp;
+                    }
+                    dataSiswa[i+1] = nm+"::"+telepon;
                 }
 
             }
@@ -326,6 +334,7 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
                         );
                         toast.setGravity(Gravity.BOTTOM,0,0);
                         toast.show();
+                        gettransaksi();
                     }
                     catch (ClientProtocolException e) {
                         Log.d("JSON Client : ",e.getMessage());
@@ -398,6 +407,7 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
                 printCustom("Telp/HP       : "+separated[1].trim(),0,0);
                 printCustom("Jenis Setoran : "+c_jenis,0,0);
                 printCustom("Jumlah        : Rp. "+jlh_setor,0,0);
+                printCustom("Keterangan    : "+c_keterangan,0,0);
 
                 printCustom(new String(new char[32]).replace("\0", "."),0,1);
 
@@ -417,9 +427,10 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
                 printNewLine();
                 printNewLine();
                 outputStream.flush();
-                gettransaksi();
+
                 mBluetoothSocket.close();
                 outputStream.close();
+                //trans.updateBiodata(cKwitansi);
             }
             catch (IOException e) {
                 //e.printStackTrace();
@@ -703,10 +714,6 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
             mBluetoothConnectProgressDialog.dismiss();
             Toast.makeText(getActivity(), "DeviceConnected", Toast.LENGTH_SHORT).show();
             cetakStruk();
-
-            //mBluetoothAdapter=null;
-            //closeSocket(mBluetoothSocket);
-            //reloadfragment();
         }
     };
     private void gettransaksi(){
@@ -769,15 +776,5 @@ public class FragmentTransaksiZakat extends Fragment implements Runnable{
                 Log.d("GETJENIS", "onFailure: "+responseString);
             }
         });
-    }
-    public void reloadfragment()
-    {
-//        Fragment frg = null;
-//        //FragmentTransaction
-//        frg = getFragmentManager().findFragmentByTag("fragment_transaksi_zakat");
-//        final FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.detach(frg);
-//        ft.attach(frg);
-//        ft.commit();
     }
 }
